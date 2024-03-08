@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Please allow access to use mic.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.237613497601-0dp8mejjf8kgnmk5h935b5jv2j3v2mab</string>
+			</array>
+		</dict>
+	</array>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>CFBundleURLTypes</key>
+					<array>
+						<dict>
+							<key>CFBundleURLSchemes</key>
+							<array>
+								<string>fb308544168867237</string>
+							</array>
+						</dict>
+					</array>
+					<key>FacebookAppID</key>
+					<string>308544168867237</string>
+					<key>FacebookClientToken</key>
+					<string>bc8d3865157ccdb8fa3217f10443d6e3</string>
+					<key>FacebookDisplayName</key>
+					<string>My Messenger</string>
+					<key>LSApplicationQueriesSchemes</key>
+					<array>
+						<string>fbapi</string>
+						<string>fb-messenger-share-api</string>
+					</array>
+					<key>UISceneConfigurationName</key>
+					<string>Default Configuration</string>
+					<key>UISceneDelegateClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+					<key>UISceneStoryboardFile</key>
+					<string>Main</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+</dict>
+</plist>
