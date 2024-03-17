@@ -50,8 +50,8 @@ https://github.com/beyzatastan/ChattengerApp/assets/114664291/34ee536a-59b1-436f
 
 
 
-<p>deleting convos</p>
 https://github.com/beyzatastan/ChattengerApp/assets/114664291/92ae1bb3-aa25-4ecb-8e68-ffbcc4c56a31
+
 
 
 <img width="312" alt="7" src="https://github.com/beyzatastan/ChattengerApp/assets/114664291/598c2a10-daea-49be-a2e6-231f0107c7a8">
