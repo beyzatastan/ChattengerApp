@@ -15,7 +15,7 @@ a swift project to create a realtime chat application in Swift 5 using Firebase.
 
 Here some photos and videos of app ;
 
-<img width="312" alt="1" src="https://github.com/beyzatastan/ChattengerApp/assets/114664291/5194fddc-e065-4639-b44e-3e6f27a8ae1c">
+<img width="322" alt="1" src="https://github.com/beyzatastan/ChattengerApp/assets/114664291/d63b36a4-3aa6-4ae9-a8a1-c4d8a1de7b82">
 <img width="312" alt="2" src="https://github.com/beyzatastan/ChattengerApp/assets/114664291/6113f6f6-f1d3-4336-a6a3-c9bc5fea6839">
 <img width="312" alt="3" src="https://github.com/beyzatastan/ChattengerApp/assets/114664291/7df8374f-4d21-48ca-8d5f-df38c40937b4">
 
