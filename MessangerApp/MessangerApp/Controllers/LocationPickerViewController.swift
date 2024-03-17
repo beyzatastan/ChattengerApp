@@ -64,6 +64,7 @@ import MapKit
         }
         navigationController?.popToRootViewController(animated: true)
         completion?(coordinates)
+        
     }
     
     @objc func didTapMap(_ gesture: UITapGestureRecognizer){

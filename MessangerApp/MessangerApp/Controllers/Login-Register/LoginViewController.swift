@@ -65,7 +65,7 @@ final class LoginViewController: UIViewController {
     private let loginButton : UIButton = {
         let button = UIButton()
         button.setTitle("Log In", for: .normal)
-        button.backgroundColor = .link
+        button.backgroundColor = .systemPurple
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 12
         button.layer.masksToBounds  = true
@@ -103,8 +103,12 @@ final class LoginViewController: UIViewController {
         //dark mode da da düzgün çalışması için bunu yazıyoruz
         //view.backgroundColor = .white
         view.backgroundColor = .systemBackground
-        
+
         navigationItem.rightBarButtonItem=UIBarButtonItem(title: "Register",style: .done ,target: self, action: #selector(didTapRegister))
+        
+        //sağdaki yazıyı mor yapt
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.systemPurple]
+        navigationItem.rightBarButtonItem?.setTitleTextAttributes(attributes, for: .normal)
         loginButton.addTarget(self, action: #selector(didTapLogin), for: .touchUpInside)
         googleLogınButton.addTarget(self, action: #selector(didtapGoogleLogin), for: .touchUpInside)
         

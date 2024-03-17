@@ -98,7 +98,7 @@ final class RegisterViewController: UIViewController {
     private let registerButton : UIButton = {
         let button = UIButton()
         button.setTitle("Register", for: .normal)
-        button.backgroundColor = .systemGreen
+        button.backgroundColor = .systemPurple
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 12
         button.layer.masksToBounds  = true
@@ -122,7 +122,9 @@ final class RegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // navigationItem'ın solunda bulunan geri butonunu değiştirmek için
+        navigationController?.navigationBar.tintColor = UIColor.systemPurple// Örnek bir renk
+
         title = "Register"
        //view.backgroundColor = .white
         view.backgroundColor = .systemBackground
