@@ -9,7 +9,7 @@ import UIKit
 import FirebaseAuth
 import JGProgressHUD
 
-class RegisterViewController: UIViewController {
+final class RegisterViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
     
@@ -32,7 +32,9 @@ class RegisterViewController: UIViewController {
         //yazının basındaki boşluk için
         field.leftView=UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = . always
-        field.backgroundColor = .white
+        //field.backgroundColor = .white
+        field.backgroundColor = .secondarySystemBackground
+
         return field
     }()
     
@@ -48,7 +50,9 @@ class RegisterViewController: UIViewController {
         //yazının basındaki boşluk için
         field.leftView=UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = . always
-        field.backgroundColor = .white
+       // field.backgroundColor = .white
+        field.backgroundColor = .secondarySystemBackground
+
         return field
     }()
     
@@ -64,7 +68,9 @@ class RegisterViewController: UIViewController {
         //yazının basındaki boşluk için
         field.leftView=UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         field.leftViewMode = . always
-        field.backgroundColor = .white
+        //field.backgroundColor = .white
+        field.backgroundColor = .secondarySystemBackground
+
         return field
     }()
     
@@ -81,7 +87,9 @@ class RegisterViewController: UIViewController {
         //yazının basındaki boşluk için
         passwordField.leftView=UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         passwordField.leftViewMode = . always
-        passwordField.backgroundColor = .white
+        //passwordField.backgroundColor = .white
+        passwordField.backgroundColor = .secondarySystemBackground
+
         passwordField.isSecureTextEntry = true
         return passwordField
     }()
@@ -116,7 +124,8 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         
         title = "Register"
-        view.backgroundColor = .white
+       //view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         
         registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
@@ -198,6 +207,10 @@ class RegisterViewController: UIViewController {
                     print("error creating user")
                     return
                 }
+                
+                UserDefaults.standard.setValue(email, forKey: "email")
+                UserDefaults.standard.setValue("\(firstName) \(lastName)", forKey: "name")
+                
                 let chatUser=ChatAppUser(firstName: firstName,
                                          lastName: lastName,
                                          emailAdress: email)

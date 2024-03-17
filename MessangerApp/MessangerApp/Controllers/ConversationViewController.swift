@@ -10,21 +10,7 @@ import FirebaseAuth
 ///görseller ve animasyonlar için kullanıyoruz
 import JGProgressHUD
 
-
-struct Conversation{
-    let id : String
-    let name :String
-    let otherUserEmail:String
-    let latestMessage :LatestMessage
-}
-
-struct LatestMessage {
-    let date:String
-    let text :String
-    let isRead : Bool
-}
-
-class ConversationViewController: UIViewController{
+final class ConversationViewController: UIViewController{
     
     private let spinner = JGProgressHUD(style: JGProgressHUDStyle.dark)
     private var conversations = [Conversation]()
@@ -64,7 +50,7 @@ class ConversationViewController: UIViewController{
         view.addSubview(tableView)
         view.addSubview(noConvoLabel)
         setUpTableView()
-        fetchConversations()
+       // fetchConversations()
         startListeningForConversation()
         //extension da oluşturdupumuz ismi verdik .didnot
         loginObserver = NotificationCenter.default.addObserver(forName: Notification.Name.didLogInNotification,object:nil,
@@ -91,8 +77,13 @@ class ConversationViewController: UIViewController{
             case .success(let conversation) :
                 print("successfully got convo models")
                 guard !conversation.isEmpty else{
+                    self?.tableView.isHidden=true
+                    self?.noConvoLabel.isHidden = false
+
                     return
                 }
+                self?.noConvoLabel.isHidden = true
+                self?.tableView.isHidden=false
                 self?.conversations = conversation
                 
                 DispatchQueue.main.async {
@@ -100,6 +91,7 @@ class ConversationViewController: UIViewController{
                 }
                 
             case .failure( let error) :
+                print("hata burdaaaaa")
                 print("failed to get convos : \(error)")
             }
         }
@@ -114,13 +106,13 @@ class ConversationViewController: UIViewController{
             
             //eğer zaten sohbetimz varsa olan sohbeti aç,yoksa yeni oluştur
             guard let strongSelf = self else{return}
-        
+            
             let currentConvos = strongSelf.conversations
             if let targetConvo = currentConvos.first(where: {
                 $0.otherUserEmail == DatabaseManager.safeEmail(emailAdress: result.email)
-
+                
             })
-            
+                
             {
                 let vc=ChatViewController(with:targetConvo.otherUserEmail, id: targetConvo.id)
                 vc.isNewConversation=false
@@ -128,13 +120,15 @@ class ConversationViewController: UIViewController{
                 //title ı küçük gösteriyo
                 vc.navigationItem.largeTitleDisplayMode = .never
                 strongSelf.navigationController?.pushViewController(vc, animated: true)
-         
-            }
-            //eger önceden bir konuşmamız yoksa yeni yarat
-            else{
-                strongSelf.createNewConversation(result: result)
-            }
-           
+                
+                
+                //eger önceden bir konuşmamız yoksa yeni yarat
+            }  else {
+                   
+                    strongSelf.createNewConversation(result: result)
+                }
+            
+        
         }
         let navVc=UINavigationController(rootViewController: vc)
         present(navVc,animated: true)
@@ -145,21 +139,37 @@ class ConversationViewController: UIViewController{
      //  let name = result["name"] , let email = result["safe_email"] else{
            //eğer kullanıcı yoksa result içinde
         let name = result.name
-        let email = result.email 
-        //eğer varsa chatview un yapıcı metodunda o email i kullan öyle git chatvc ye
-        let vc=ChatViewController(with:email, id: nil)
-        vc.isNewConversation=true
-        vc.title = name
-        //title ı küçük gösteriyo
-        vc.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.pushViewController(vc, animated: true)
-    }
+        let email = result.email
+        
+        DatabaseManager.shared.conversationExists(with: email) { [weak self] result in
+            guard let strongSelf = self else{
+                return
+            }
+            switch result{
+            case .success(let convoId):
+                let vc=ChatViewController(with:email, id: convoId)
+                vc.isNewConversation=false
+                vc.title = name
+                //title ı küçük gösteriyo
+                vc.navigationItem.largeTitleDisplayMode = .never
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+            case .failure(_):
+                let vc=ChatViewController(with:email, id: nil)
+                vc.isNewConversation=true
+                vc.title = name
+                //title ı küçük gösteriyo
+                vc.navigationItem.largeTitleDisplayMode = .never
+                strongSelf.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+           }
     
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         //tüm ekranın table view olmasını sağlıyor
         tableView.frame=view.bounds
+        noConvoLabel.frame = CGRect(x: 10, y: (view.height-100)/2, width: view.width-20, height: 100)
     }
     
     
@@ -186,13 +196,6 @@ class ConversationViewController: UIViewController{
         tableView.dataSource=self
     }
     
-    //firebase den konusmaları alıcaz
-    private func fetchConversations(){
-        tableView.isHidden=false
-    }
-    
-    
-    
 }
 extension ConversationViewController : UITableViewDelegate, UITableViewDataSource {
     
@@ -212,7 +215,6 @@ extension ConversationViewController : UITableViewDelegate, UITableViewDataSourc
         tableView.deselectRow(at: indexPath, animated: true)
         let model = conversations[indexPath.row]
         openConversations(model)
-
         }
     func openConversations(_ model : Conversation){
         
@@ -241,18 +243,17 @@ extension ConversationViewController : UITableViewDelegate, UITableViewDataSourc
             //begin delete
             let conversationId = conversations[indexPath.row].id
             tableView.beginUpdates()
-            
-            DatabaseManager.shared.deleteConversation(conversationId:conversationId ) {[weak self] success in
-                if success{
-                    
-                    self?.conversations.remove(at: indexPath.row)
-                    
-                    tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.left)
-                    
+            self.conversations.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.left)
+
+            DatabaseManager.shared.deleteConversation(conversationId:conversationId ) {success in
+                if !success{
+                    print("failed to delete")
+                    }
                 }
-            }
           
             tableView.endUpdates()
+           
         }
     }
     

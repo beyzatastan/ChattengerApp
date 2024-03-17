@@ -8,7 +8,7 @@
 import UIKit
 import JGProgressHUD
 
-class NewConversationViewController: UIViewController {
+final class NewConversationViewController: UIViewController {
     
     
     //bi closure oluşturmamız gerekiyor,eğer varsa zaten sohbet gecmisi eni sohbet oluşturmasın terrardan ,var olan sohbeti açsın diye
@@ -56,7 +56,8 @@ class NewConversationViewController: UIViewController {
         tableView.delegate=self
         tableView.dataSource=self
         
-        view.backgroundColor = .white
+       // view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         searchBar.delegate = self
         //searchbar ı navigation ın içine atıyo ki framelerle ugrasmayalım
         navigationController?.navigationBar.topItem?.titleView = searchBar
@@ -130,7 +131,9 @@ extension NewConversationViewController:UISearchBarDelegate{
         //arrayin içinde firebase results var mı kontrol et
         if hasFetched{
             //varsa filtrele aramayı
-            filterUsers(with: query)
+            self.filterUsers(with: query)
+            print("\(results.count) search users hasfetch")
+            
             
         }
         else {
@@ -141,6 +144,7 @@ extension NewConversationViewController:UISearchBarDelegate{
                     self?.hasFetched = true
                     self?.users = usersCollection
                     self?.filterUsers(with: query)
+                    print("çalıştı search users")
                 case .failure(let error):
                     print("failed to get users: \(error)")
                 }
@@ -158,41 +162,41 @@ extension NewConversationViewController:UISearchBarDelegate{
         let safeEmail = DatabaseManager.safeEmail(emailAdress: currentUserEmail)
         self.spinner.dismiss()
         let results : [SearchResults] = self.users.filter({
-            guard let email = $0["email"] , email != safeEmail else{
+            guard let email = $0["safe_email"] , email != safeEmail else{
                  
                 return false
             }
-            guard let name = $0["name"]?.lowercased() else{
+           guard let name = $0["name"]?.lowercased() as? String else{
                 return false
             }
             //kelimenin içinde yazdığımız kombinasyon varsa direkt getirir
             return name.hasPrefix(term.lowercased())
         }).compactMap ({
-            guard let email = $0["email"],let name = $0["name"] else{
+            guard let email = $0["safe_email"],let name = $0["name"] else{
                 return nil
             }
             return SearchResults(name: name, email: email)
         })
+        print(users.count)
         self.results = results
+        print("filteredusers \(results.count)")
+        print(results.count)
         updateUI()
     }
     
     func updateUI(){
         if results.isEmpty{
-            self.noResultsLabel.isHidden=false
-            self.tableView.isHidden=true
+            print("result bos geliyo")
+            print(results.count)
+            noResultsLabel.isHidden=false
+            tableView.isHidden=true
         }
         else{
-            self.noResultsLabel.isHidden=true
-            self.tableView.isHidden=false
-            self.tableView.reloadData()
+            noResultsLabel.isHidden=true
+            tableView.isHidden=false
+            tableView.reloadData()
         }
     }
     
     
-}
-
-struct SearchResults {
-    let name :String
-    let email : String
 }

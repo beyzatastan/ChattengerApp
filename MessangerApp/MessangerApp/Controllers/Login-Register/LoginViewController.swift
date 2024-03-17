@@ -12,7 +12,7 @@ import GoogleSignIn
 //import FacebookLogin
 import JGProgressHUD
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
    
@@ -37,7 +37,9 @@ class LoginViewController: UIViewController {
         //yazının basındaki boşluk için
         emailField.leftView=UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         emailField.leftViewMode = . always
-        emailField.backgroundColor = .white
+        //emailField.backgroundColor = .white
+        emailField.backgroundColor = .secondarySystemBackground
+
         return emailField
     }()
     
@@ -53,7 +55,9 @@ class LoginViewController: UIViewController {
         //yazının basındaki boşluk için
         passwordField.leftView=UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         passwordField.leftViewMode = . always
-        passwordField.backgroundColor = .white
+        //passwordField.backgroundColor = .white
+        passwordField.backgroundColor = .secondarySystemBackground
+
         passwordField.isSecureTextEntry = true
         return passwordField
     }()
@@ -96,7 +100,9 @@ class LoginViewController: UIViewController {
             
         })
         title = "Log In"
-        view.backgroundColor = .white
+        //dark mode da da düzgün çalışması için bunu yazıyoruz
+        //view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         navigationItem.rightBarButtonItem=UIBarButtonItem(title: "Register",style: .done ,target: self, action: #selector(didTapRegister))
         loginButton.addTarget(self, action: #selector(didTapLogin), for: .touchUpInside)
