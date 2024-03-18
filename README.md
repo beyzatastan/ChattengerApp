@@ -50,7 +50,9 @@ https://github.com/beyzatastan/ChattengerApp/assets/114664291/34ee536a-59b1-436f
 
 
 
-https://github.com/beyzatastan/ChattengerApp/assets/114664291/92ae1bb3-aa25-4ecb-8e68-ffbcc4c56a31
+
+https://github.com/beyzatastan/ChattengerApp/assets/114664291/c66caf99-b437-4bf9-9b4e-cc7ca3ec499c
+
 
 
 
